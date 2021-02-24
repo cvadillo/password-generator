@@ -1,26 +1,21 @@
-// Set-up Variables from the DOM
+// Alert the user to use the form elements to submit his password
 
 // Password Composition and Elements
 var lengthEl = document.getElementById("length");
-var upperCaseEl = document.getElementById("upperCase");
-var lowerCaseEl = document.getElementById("lowerCase");
-var numberCharEl = document.getElementById("numberChar");
-var specialCharEl = document.getElementById("specialChar");
+var upperCaseEl = document.getElementById("upper-case");
+var lowerCaseEl = document.getElementById("lower-case");
+var numberCharEl = document.getElementById("number-char");
+var specialCharEl = document.getElementById("special-char");
 var passwordDisplay = document.getElementById("password");
 
 // Button Variable
 var generateBtn = document.querySelector("#generate");
 
 // Create an object to store the random characters generated for each of the cases the user can pick
-var randomCharacters = {
-	lower: getRandomLower,
-	upper: getRandomUpper,
-	number: getRandomNumber,
-	symbol: getRandomSymbol
-}
+
 
 // Get the paramenters intp a function to create the password
-var getPasswordParameters = function () {
+var parameterValidation = function () {
 	// check which parameters the user wants
 	var hasLength = lengthEl.value;
 	var hasUpper = upperCaseEl.checked;
@@ -28,58 +23,77 @@ var getPasswordParameters = function () {
 	var hasNumber = numberCharEl.checked;
 	var hasSpecial = specialCharEl.checked;
 
+	// Reset passwordString everytime the new function is ran
+	passwordString = '';
+
+	// Make sure the user has selected a valid number for their password.
+	if (hasLength < 8) {
+		alert("Please enter a number of characters for your password. The minimum is 8 and the maximum is 128.");
+		return;
+	}
+
 	// Make sure the user has at least one parameter checked. If not, alert them
 	if (!hasUpper && !hasLower && !hasNumber && !hasSpecial) {
 		alert("You need to make at least one checkbox selection");
 	}
 
-	// We know the length, we know what parameters the user wants, time to build the password.
-	writePassword(hasLower, hasUpper, hasNumber, hasSpecial, hasLength);
-
+	// Pass values to generator function.
+	characterGenerator(hasLength, hasUpper, hasLower, hasNumber, hasSpecial);
 };
 
-// Generate the password
-function writePassword(lower, upper, number, symbol, length) {
-	// Initialize the password variable and set it to nothing
-	var password = "";
+var writePassword = function (length, string) {
+	// Reset the final Password variable
+	var finalPassword = '';
 
-	// Filter the types that the user wants
-	var parameterCount = lower + upper + number + symbol;
-	var parametersArray = [{lower}, {upper}, {number}, {symbol}].filter(item => Object.values(item)[0]);
+	// Create an array so we can shuffle the password
+	var passArray = [];
 
-	// Generate the characters for each parameter in a loop
-	for (var i = 0; i < length; i += parameterCount) {
-		parametersArray.forEach(type=> {
-			var funcName = Object.keys(type[0]);
-			writePassword += randomCharacters[funcName]();
-		});
+	// Convert the string to an array and randomize
+	var passArray = string.split('');
+	passArray.sort(function() {
+		return 0.5 - Math.random();
+	});  
+
+	// Recreate the string
+	string = passArray.join('');                
+	finalPassword = string.substr(0, length-1);
+
+	passwordDisplay.textContent = finalPassword;
+	//console.log(finalPassword);
+};
+
+
+
+// Character Generator functions
+var characterGenerator = function(length, upper, lower, number, special) {
+	
+	// Define the strings we're going to use to generate the password
+	const letterString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const numberString = "0123456789"
+	const specialString = "!@#$%^&*()-_+=<>,./?;:'[]{}|";
+	var characterOutput = '';
+
+	// Begin a for loop to fill up a string with values
+	for (var i = 0; i < length; i++) {
+		
+		// Check the parameters and add to the characters
+		if (upper) {
+			characterOutput += letterString.charAt(Math.floor(Math.random() * letterString.length));
+		}
+		if (lower) {
+			characterOutput += letterString.toLowerCase().charAt(Math.floor(Math.random() * letterString.length));
+		}
+		if (number) {
+			characterOutput += numberString.charAt(Math.floor(Math.random() * numberString.length));
+		}
+		if (special) {
+			characterOutput += specialString.charAt(Math.floor(Math.random() * specialString.length));
+		}
 	}
-	var passwordText = writePassword.slice(0, length);
-	return passwordText;
-	passwordDisplay.value = passwordText;
-
+	// Pass the output to the writePassword function
+	writePassword(length, characterOutput);
 };
 
-// Generate a random Lowercase Letter
-function getRandomLower() {
-	return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-}
-
-// Generate a random Uppercase Letter
-function getRandomUpper() {
-	return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
-}
-
-//Generate a random number
-function getRandomNumber() {
-	return +String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-}
-
-// Generate a random symbol
-function getRandomSymbol() {
-	var symbols = '!@#$%^&*(){}[]=<>/,.'
-	return symbols[Math.floor(Math.random() * symbols.length)];
-}
 
 // Add event listener to generate button
-generateBtn.addEventListener("click", getPasswordParameters);
+generateBtn.addEventListener("click", parameterValidation);

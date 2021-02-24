@@ -10,27 +10,32 @@
     <body>
         <div class="wrapper">
             <header>
-                <h1>Password Generator</h1>
+                <h1>Welcome To Password Generator!</h1>
             </header>
             <div class="card">
                 <div class="card-header">
-                    <h2>Generate a Password</h2>
-                </div>
-                <div class="card-body">
-                    <textarea readonly id="password"placeholder="Your Secure Password" aria-label="Generated Password"></textarea>
+                    <h2>To Generate a Password Submit the Form Below</h2>
                 </div>
                 <div class="card-footer">
                     <label for="quantity">Password Length (8 min 128 max):</label>
                         <input type="number" id="length" name="length" min="8" max="128"><br>
-                    <input type="checkbox" id="upperCase" name="upperCase" value="upper">
+
+                    <input type="checkbox" id="upper-case" name="upper-case" value="upper">
                         <label for="upperCase">Use Upper Case Letters</label><br>
-                    <input type="checkbox" id="lowerCase" name="lowerCase" value="lower">
+
+                    <input type="checkbox" id="lower-case" name="lower-case" value="lower">
                         <label for="lowerCase">Use Lower Case Letters</label><br>
-                    <input type="checkbox" id="numberChar" name="numberChar" value="numbers">
+
+                    <input type="checkbox" id="number-char" name="number-char" value="numbers">
                         <label for="numbers">Use Numbers</label><br>
-                    <input type="checkbox" id="specialChar" name="specialChar" value="specialChar">
+
+                    <input type="checkbox" id="special-char" name="special-char" value="special-char">
                         <label for="specialChar">Use Special Characters</label><br>
+
                     <button id="generate" class="btn">Generate Password</button>
+                </div>
+                 <div class="card-body">
+                    <textarea readonly id="password" placeholder="Your Secure Password Will Generate Here" aria-label="Generated Password"></textarea>
                 </div>
             </div>
         </div>
