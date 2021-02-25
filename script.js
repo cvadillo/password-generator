@@ -1,5 +1,3 @@
-// Alert the user to use the form elements to submit his password
-
 // Password Composition and Elements
 var lengthEl = document.getElementById("length");
 var upperCaseEl = document.getElementById("upper-case");
@@ -11,10 +9,7 @@ var passwordDisplay = document.getElementById("password");
 // Button Variable
 var generateBtn = document.querySelector("#generate");
 
-// Create an object to store the random characters generated for each of the cases the user can pick
-
-
-// Get the paramenters intp a function to create the password
+// Get the paramenters into a function to create the password
 var parameterValidation = function () {
 	// check which parameters the user wants
 	var hasLength = lengthEl.value;
@@ -59,7 +54,6 @@ var writePassword = function (length, string) {
 	finalPassword = string.substr(0, length-1);
 
 	passwordDisplay.textContent = finalPassword;
-	//console.log(finalPassword);
 };
 
 
