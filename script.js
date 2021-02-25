@@ -56,8 +56,6 @@ var writePassword = function (length, string) {
 	passwordDisplay.textContent = finalPassword;
 };
 
-
-
 // Character Generator functions
 var characterGenerator = function(length, upper, lower, number, special) {
 	
@@ -87,7 +85,6 @@ var characterGenerator = function(length, upper, lower, number, special) {
 	// Pass the output to the writePassword function
 	writePassword(length, characterOutput);
 };
-
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", parameterValidation);
